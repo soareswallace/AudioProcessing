@@ -10,7 +10,7 @@ function z = convo2(img, kern, str = 'full')
     for j = 1:col
       for k = max(1, i + 1 - x):1:min(i, m)
         for l = max(1, j + 1 - y):1:min(j, n)
-          z(i, j) += img(k, l) * kern(i - k + 1, j - l + 1);
+          z(i, j) = z(i,j) + img(k, l) * kern(i - k + 1, j - l + 1);
         end
        end
      end
