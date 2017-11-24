@@ -1,5 +1,0 @@
-function ys = myConv(u, v)
-  m = length(u);
-  n = length(v);
-  tam = m + n - 1;
-  w = zeros(1, tam);
