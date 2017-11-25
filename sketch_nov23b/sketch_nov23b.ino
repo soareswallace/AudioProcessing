@@ -115,10 +115,11 @@ void loop()
 
   bb=dd[icnt] ;              // read the delay buffer
   iw = 127-bb ;              // substract offset
-  //iw = iw * badc0 / 255;     // scale delayed sample with potentiometer
-
+  //Serial.println(badc0);
+  iw = iw * badc0 / 255;     // scale delayed sample with potentiometer
+  //badc1 = 0;
   iw1 = 127 - badc1;          // substract offset from new sample
-  
+  //iwl= 0;
   iw1=iw1+iw;                 // add delayed sample and new sample
   if (iw1 < -127) iw1=-127;   // Audio limiter 
   if (iw1 > 127) iw1=127;     // Audio limiter 
@@ -127,7 +128,7 @@ void loop()
   dd[icnt]=bb*0.65;                // store sample in audio buffer
 
   icnt++;
-  icnt = icnt % 1599;         // limit bufferindex 0..511
+  icnt = icnt % 1600;         // limit bufferindex 0..511
 
   OCR2A=bb;            // Sample Value to PWM Output
 
@@ -141,7 +142,7 @@ void fill_sinewave(){
   float dx ;
   float fd ;
   float fcnt;
-  dx=2 * pi / 1600;                    // fill the 512 byte bufferarry
+  dx=2.0 * pi / 1600.0;                    // fill the 512 byte bufferarry
   for (iw = 0; iw <= 1599; iw++){      // with  50 periods sinewawe
     fd= 127*sin(fcnt);                // fundamental tone
     fcnt=fcnt+dx;                     // in the range of 0 to 2xpi  and 1/512 increments
