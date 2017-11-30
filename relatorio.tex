@@ -1,0 +1,93 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[portuges]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{multicol,lipsum}
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+
+
+\begin{document}
+%\maketitle
+\begin{titlepage}
+	\begin{center}
+	
+	%\begin{figure}[!ht]
+	%\centering
+	%\includegraphics[width=2cm]{c:/ufba.jpg}
+	%\end{figure}
+
+		\Huge{Universidade Federal de Pernambuco}\\
+		\large{Sinais e Sistemas ES413}\\ 
+		\vspace{15pt}
+        \vspace{95pt}
+        \textbf{\LARGE{Relatório}}\\
+		%\title{{\large{Título}}}
+		\vspace{3,5cm}
+	\end{center}
+	
+	\begin{flushleft}
+		\begin{tabbing}
+			Alunos: Wallace Soares\\
+       Lucas Gabriel\\ 
+	\end{tabbing}
+ \end{flushleft}
+	\vspace{1cm}
+	
+	\begin{center}
+		\vspace{\fill}
+			 Dezembro - 2017\\
+		
+			\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% % % % % % % % % % % % % % % % % % % % % % % % % %
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\pagenumbering{arabic}
+% % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{O eco}
+A representação de um eco no meio fisico se da pela propagação de uma onda através do ar que ao ser rebatida em algum objeto sólido, como uma parede, é amortecido e rebatido de volta ao emissor. No nosso sistema, que será explicado mais a frente, veremos que tanto o rebatimento como o amortecimento estão presentes através de um time delay e uma modulação por um impulso de tamanho entre (0,1), respectivamente. Vemos na representação abaixo que a onda original, em vermelho, ao atingir o corpo solido azul é retornada ao emissor, em verde. É importante relembrar que ao retornar a onda sofreu um amortecimento no choque com o objeto azul, sendo assim não possui a mesma energia de quando foi emitida.
+\newline
+\includegraphics[width=0.9\textwidth]{496px-Sonar_Principle_EN_svg_.png}
+
+
+
+\newpage
+\section{Embasamento teórico}
+\textbf{Aqui deve ser explicado como esse efeito é alcançado usando um diagrama de blocos. Deve também ser encontrada a resposta ao impulso desse diagrama. E como o processo de convolução é utilizado para aplicação de filtros de áudio.}
+\newline
+Através do processo de convolução e como descrito no sistema abaixo 
+
+\includegraphics[width=0.9\textwidth]{Echo_System.png}
+\newpage
+
+\section{Implementação no MATLAB}
+A implementação em MATLAB se mostra importante porque é nesta fase que de forma rápida modelamos matematicamente todo o nosso sistema. Através da recepção do microfone salvamos um objeto - chamado de recObj no nosso código - que é de onde se extrai um vetor com os valores do áudio bruto. Vale destacar que os parâmetros passados na função audiorecorder são, em ordem: frequencia de amostragem, numero de bits por amostra e quantidade de canais. \newline
+
+Após extrair o audio bruto, setamos nossa função de filtro que são impulsos deslocados e modulados por uma exponencial decrescente. Ao realizar a convolução do sinal de entrada com este filtro fazemos com que cada ``pedaço" do sinal de entrada seja multiplicado pelos impulsos e deslocados de um certo valor. Assim conseguimos então realizar um filtro de eco já que a saida esta sendo deslocada e modulada por um valor entre 0 e 1, e assim sendo somada ao sinal de entrada.
+
+\newpage
+
+\section{Implementação no Arduino}
+Criamos um vetor onde os valores obtidos da entrada P2 serão guardados. Este vetor trabalha de forma circular, ou seja, quando se atinge o limite do vetor, o contador volta para o começo. Utilizando-se do processo rotatório, a cada loop o valor obtido da entrada P2 (variável ‘badc1’) era somado com o valor da posição atual do vetor circular (variável ‘iw’), para criar o efeito de Reverb. Então o valor obtido é multiplicado pela constante 0.65 e enviado à posição atual do vetor, além de ir para a saída de áudio. Quando o vetor retorna para a mesma posição, ou seja, uma volta completa, o processo é repetido, mas com um novo valor proveniente da entrada P2. Então o efeito de eco começa a agir, já que existem resquícios da entrada anterior na posição do vetor. E como a cada loop ‘iw’ é multiplicada por 0.65, as atenuações se acumulam criando o efeito da repetição atenuada. 
+
+\newpage
+
+\section{Avaliação de resultados}
+Ao final, você deverá ser capaz de dizer sucintamente quais decisões impactaram diretamente na qualidade do filtro implementado e se os resultados práticos foram compatíveis com os resultados esperados no modelo teórico criado na primeira parte do seu relatório.
+\newpage
+
+
+\end{document}
+
+
+
+
+
