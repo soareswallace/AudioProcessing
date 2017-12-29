@@ -9,7 +9,7 @@ exp_decay = exp(-interval);
 echo_filter = [0,8*exp_decay zeros(1, 9000) 0,6*exp_decay zeros(1, 9000) 0,4*exp_decay zeros(1, 9000) 0,3*exp_decay zeros(1, 9000) 0,2*exp_decay zeros(1,9000) 0,1*exp_decay zeros(1, 9000)];
 myRecording = transpose(myRecording);
 y = conv(myRecording, echo_filter);
-
+ 
 sound(y, 44100, 16);
 figure(1);
 plot(myRecording);
